@@ -3,7 +3,7 @@ from tks_api_official.calc import CustomsCalculator
 from flask_cors import CORS 
 
 app = Flask(__name__)
-CORS(app) 
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 @app.route('/calculate', methods=['POST'])
 def calculate():
