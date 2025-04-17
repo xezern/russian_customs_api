@@ -1,0 +1,37 @@
+tariffs:
+  base_clearance_fee: 3100  # Таможенная пошлина за оформление (руб.)
+  base_util_fee: 20000  # Утилизационный сбор (руб.)
+  etc_util_coeff_base: 1.5  # Коэффициент утилизационного сбора для ETC
+  ctp_util_coeff_base: 1.2  # Коэффициент утилизационного сбора для CTP
+  excise_rates:
+    gasoline: 58  # Акциз для бензиновых двигателей (руб./л.с.)
+    diesel: 58  # Акциз для дизельных двигателей (руб./л.с.)
+    electric: 0  # Для электромобилей акциз отсутствует
+    hybrid: 58  # Акциз для гибридных двигателей (руб./л.с.)
+  recycling_factors:
+    default:
+      gasoline: 1.0
+      diesel: 1.1
+      electric: 0.3
+      hybrid: 0.9
+    adjustments:
+      "5-7":
+        gasoline: 0.26
+        diesel: 0.26
+        electric: 0.26
+        hybrid: 0.26
+  age_groups:
+    overrides:
+      "5-7":
+        gasoline:
+          rate_per_cc: 4.8  # Ставка (евро/см³)
+          min_duty: 0  # Минимальная ставка
+        diesel:
+          rate_per_cc: 5.0
+          min_duty: 0
+        electric:
+          rate_per_cc: 0
+          min_duty: 1000
+        hybrid:
+          rate_per_cc: 2.0
+          min_duty: 2500
