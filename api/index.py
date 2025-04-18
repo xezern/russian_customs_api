@@ -154,8 +154,9 @@ def getEnums(lang):
    
 
 # SSR üçün lazım:
-def handler(environ, start_response):
-    return app(environ, start_response)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+app = app
