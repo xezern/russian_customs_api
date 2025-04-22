@@ -11,7 +11,7 @@ def calculate():
 
     try:
         # Calculator obyektini config faylı ilə yarat
-        calculator = CustomsCalculator("config.yaml")
+        calculator = CustomsCalculator("./config.yaml")
 
         # Parametrləri təyin et
         calculator.set_vehicle_details(
