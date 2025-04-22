@@ -5,54 +5,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
-YAML_CONFIG_STRING = """
-tariffs:
-  base_clearance_fee: 3100
-  base_util_fee: 20000
-  etc_util_coeff_base: 1.5
-  ctp_util_coeff_base: 1.2
-  excise_rates:
-    gasoline: 58
-    diesel: 58
-    electric: 0
-    hybrid: 58
-  recycling_factors:
-    default:
-      gasoline: 1.0
-      diesel: 1.1
-      electric: 0.3
-      hybrid: 0.9
-    adjustments:
-      "5-7":
-        gasoline: 0.26
-        diesel: 0.26
-        electric: 0.26
-        hybrid: 0.26
-  age_groups:
-    overrides:
-      "5-7":
-        gasoline:
-          rate_per_cc: 4.8
-          min_duty: 0
-        diesel:
-          rate_per_cc: 5.0
-          min_duty: 0
-        electric:
-          rate_per_cc: 0
-          min_duty: 1000
-        hybrid:
-          rate_per_cc: 2.0
-          min_duty: 2500
-"""
-
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.json
-
+ 
     try:
-        # Config string istifadə et
-        calculator = CustomsCalculator(config_string=YAML_CONFIG_STRING)
+        # Calculator obyektini config faylı ilə yarat
+        calculator = CustomsCalculator("config.yaml")
 
+        # Parametrləri təyin et
         calculator.set_vehicle_details(
             age=data.get("age"),
             engine_capacity=int(data.get("engine_capacity")),
@@ -63,6 +24,7 @@ def calculate():
             currency=data.get("currency")
         )
 
+        # ETC və CTP hesablamaları
         etc_result = calculator.calculate_etc()
         ctp_result = calculator.calculate_ctp()
 
@@ -73,6 +35,7 @@ def calculate():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 @app.route('/enums/<lang>', methods=['GET'])
 def getEnums(lang):
@@ -190,10 +153,5 @@ def getEnums(lang):
         return jsonify({"error": str(e)}), 400
    
 
-# SSR üçün lazım:
-
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-app = app
