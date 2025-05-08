@@ -8,10 +8,33 @@ CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.json
+    print(data)
  
     try:
         # Calculator obyektini config faylı ilə yarat
         calculator = CustomsCalculator("config.yaml")
+        
+        if ( data.get("isFirst")):
+            return jsonify({
+                "CTP": {
+                    "Clearance Fee (RUB)": 0,
+                    "Duty (RUB)": 0.0,
+                    "Excise (RUB)": 0,
+                    "Mode": "CTP",
+                    "Price (RUB)": 0.0,
+                    "Total Pay (RUB)": 0.0,
+                    "Util Fee (RUB)": 0.0,
+                    "VAT (RUB)": 0.0
+                },
+                "ETC": {
+                    "Clearance Fee (RUB)": 0,
+                    "Duty (RUB)": 0.0,
+                    "Mode": "ETC",
+                    "Recycling Fee (RUB)": 0.0,
+                    "Total Pay (RUB)": 0.0,
+                    "Util Fee (RUB)": 0
+                }
+            })
 
         # Parametrləri təyin et
         calculator.set_vehicle_details(
